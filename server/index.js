@@ -4,7 +4,7 @@ const passwords = require('../passwords.js');
 
 const app = express();
 
-app.use(express.static(__dirname + '/../build'));
+app.use(express.static(__dirname + '/../client/dist'));
 
 const oauth2 = simpleOauthModule.create({
   client: {
@@ -20,14 +20,13 @@ const oauth2 = simpleOauthModule.create({
 
 // Authorization uri definition
 const authorizationUri = oauth2.authorizationCode.authorizeURL({
-  redirect_uri: 'http://localhost:3000/callback',
+  redirect_uri: 'http://localhost:8080/callback',
   response_type: 'code',
   scope: 'email,read_logged_time'
 });
 
 // Initial page redirecting to WakaTime
 app.get('/auth', (req, res) => {
-  console.log('this is the authurl', authorizationUri);
   res.redirect(authorizationUri);
 });
 
