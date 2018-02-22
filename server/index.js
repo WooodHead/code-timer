@@ -3,6 +3,7 @@ const simpleOauthModule = require('simple-oauth2');
 const passwords = require('../passwords.js');
 
 const app = express();
+const port = process.env.PORT || 8080;
 
 app.use(express.static(__dirname + '/../client/dist'));
 
@@ -12,9 +13,9 @@ const oauth2 = simpleOauthModule.create({
     secret: passwords.WAKATIME_CLIENT_SECRET
   },
   auth: {
-    tokenHost: 'https://wakatime.com',
-    tokenPath: '/oauth/token',
-    authorizePath: '/oauth/authorize',
+    tokenHost: 'https://wakatime.com/api/v1/',
+    tokenPath: 'https://wakatime.com/oauth/token',
+    authorizePath: 'https://wakatime.com/oauth/authorize',
   },
 });
 
@@ -22,7 +23,7 @@ const oauth2 = simpleOauthModule.create({
 const authorizationUri = oauth2.authorizationCode.authorizeURL({
   redirect_uri: 'http://localhost:8080/callback',
   response_type: 'code',
-  scope: 'email,read_logged_time'
+  scope: 'email,read_logged_time, read_stats'
 });
 
 // Initial page redirecting to WakaTime
@@ -33,18 +34,21 @@ app.get('/auth', (req, res) => {
 // Callback service parsing the authorization token and asking for the access token
 app.get('/callback', (req, res) => {
   const code = req.query.code;
-  console.log(code);
-  const options = {
-    code,
-  };
-
-  oauth2.authorizationCode.getToken(options, (error, result) => {
+  const headers = {
+    'Accept': 'application/x-www-form-urlencoded'
+  }
+  oauth2.authorizationCode.getToken({
+    headers: headers,
+    code: code,
+    grant_type: 'authorization_code',
+    redirect_uri: 'http://localhost:8080/callback'
+  }, (error, result) => {
     if (error) {
-      console.error('Access Token Error', error.message);
+      //console.error('Access Token Error', error.message);
       return res.json('Authentication failed');
     }
 
-    console.log('The resulting token: ', result);
+    //console.log('The resulting token: ', result);
     const token = oauth2.accessToken.create(result);
 
     return res.status(200).json(token);
@@ -59,6 +63,6 @@ app.get('/success', (req, res) => {
 //   res.send('Hello<br><a href="/auth">Log in with WakaTime</a>');
 // });
 
-app.listen(8080, () => {
-  console.log('Express server started on port 8080'); // eslint-disable-line
+app.listen(port, () => {
+  console.log(`Express server started on port: ${port}`); // eslint-disable-line
 });

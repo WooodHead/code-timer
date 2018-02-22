@@ -8,7 +8,7 @@ class Header extends Component {
       <h1 className="App-title">Code-Timer</h1>
       <h2>A text-based app that sends you daily notifications on the number of commits you made and time spent coding.</h2>
       <h3>Made using WakaTime and Twilio API</h3>
-      <Link to="/auth">Log In With WakaTime</Link>
+      <a href="/auth">Log In With WakaTime</a>
     </div>);
   }
 }
