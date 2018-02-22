@@ -1,11 +1,19 @@
 const express = require('express');
+const request = require('request');
+const bodyParser = require('body-parser');
+
 const simpleOauthModule = require('simple-oauth2');
 const passwords = require('../passwords.js');
 
 const app = express();
 const port = process.env.PORT || 8080;
 
+app.use(bodyParser.json());
+
 app.use(express.static(__dirname + '/../client/dist'));
+
+var token;
+var durations;
 
 const oauth2 = simpleOauthModule.create({
   client: {
@@ -49,9 +57,21 @@ app.get('/callback', (req, res) => {
     }
 
     //console.log('The resulting token: ', result);
-    const token = oauth2.accessToken.create(result);
+    token = oauth2.accessToken.create(result);
+    console.log('this is the token', token);
+    request({
+      url: 'https://wakatime.com/api/v1/users/current/durations?date=2018-02-22',
+      auth: {
+        'bearer': token
+      }
+    }, function(err, res) {
+      if(err){
+        console.log(err);
+      }
+      durations = res.body;
+    });
 
-    return res.status(200).json(token);
+    return res.status(200).json(durations);
   });
 });
 
