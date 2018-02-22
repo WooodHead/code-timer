@@ -4,7 +4,7 @@ const passwords = require('../passwords.js');
 
 const app = express();
 
-//app.use(express.static(__dirname + '/../build'));
+app.use(express.static(__dirname + '/../build'));
 
 const oauth2 = simpleOauthModule.create({
   client: {
@@ -20,9 +20,9 @@ const oauth2 = simpleOauthModule.create({
 
 // Authorization uri definition
 const authorizationUri = oauth2.authorizationCode.authorizeURL({
-  redirect_uri: 'https://wakatime.com/oauth/test',
+  redirect_uri: 'http://localhost:3000/callback',
   response_type: 'code',
-  scope: 'email,read_stats'
+  scope: 'email,read_logged_time'
 });
 
 // Initial page redirecting to WakaTime
@@ -56,9 +56,9 @@ app.get('/success', (req, res) => {
   res.send('');
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello<br><a href="/auth">Log in with WakaTime</a>');
-});
+// app.get('/', (req, res) => {
+//   res.send('Hello<br><a href="/auth">Log in with WakaTime</a>');
+// });
 
 app.listen(8080, () => {
   console.log('Express server started on port 8080'); // eslint-disable-line
