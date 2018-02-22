@@ -68,8 +68,17 @@ app.get('/callback', (req, res) => {
         console.log(err);
       }
       durations = res.body;
-      return res.status(200).json(durations);
     });
+
+    //TO-DO
+    //need to figure out get request with current correct date
+    //how to create routing for authorized users in the front-end
+    //promisify/replace request with axios
+    //add request to commits endpoint of wakatime
+    //figure out twilio integration
+    //set up cron job to send daily texts
+    //clean up code
+    //figure out heroku hosting
 
     return res.status(200).json(durations);
   });
