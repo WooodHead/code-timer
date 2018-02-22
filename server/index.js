@@ -58,17 +58,17 @@ app.get('/callback', (req, res) => {
 
     //console.log('The resulting token: ', result);
     token = oauth2.accessToken.create(result);
-    console.log('this is the token', token);
     request({
       url: 'https://wakatime.com/api/v1/users/current/durations?date=2018-02-22',
       auth: {
-        'bearer': token
+        'bearer': token.token.access_token
       }
     }, function(err, res) {
       if(err){
         console.log(err);
       }
       durations = res.body;
+      return res.status(200).json(durations);
     });
 
     return res.status(200).json(durations);
