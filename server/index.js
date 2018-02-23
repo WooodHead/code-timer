@@ -58,8 +58,11 @@ app.get('/callback', (req, res) => {
 
     //console.log('The resulting token: ', result);
     token = oauth2.accessToken.create(result);
+    const dt = new Date();
+    const rightDt = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate();
+
     request({
-      url: 'https://wakatime.com/api/v1/users/current/durations?date=2018-02-22',
+      url: `https://wakatime.com/api/v1/users/current/durations?date=${rightDt}`,
       auth: {
         'bearer': token.token.access_token
       }
@@ -71,7 +74,6 @@ app.get('/callback', (req, res) => {
     });
 
     //TO-DO
-    //need to figure out get request with current correct date
     //how to create routing for authorized users in the front-end
     //promisify/replace request with axios
     //add request to commits endpoint of wakatime
@@ -93,5 +95,5 @@ app.get('/success', (req, res) => {
 // });
 
 app.listen(port, () => {
-  console.log(`Express server started on port: ${port}`); // eslint-disable-line
+  console.log(`Express server started on port: ${port}`);
 });
