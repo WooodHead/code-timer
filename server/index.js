@@ -78,8 +78,8 @@ app.get('/callback', (req, res) => {
     //how to create routing for authorized users in the front-end
     //promisify/replace request with axios
     //add request to commits endpoint of wakatime
-    //figure out twilio integration
-    //set up cron job to send daily texts
+    //figure out facebook dot
+    //set up cron job to send daily message through facebook
     //clean up code
     //figure out heroku hosting
 
