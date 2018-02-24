@@ -71,6 +71,7 @@ app.get('/callback', (req, res) => {
         console.log(err);
       }
       durations = res.body;
+      console.log(durations);
     });
 
     //TO-DO
