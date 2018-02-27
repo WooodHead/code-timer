@@ -52,7 +52,6 @@ app.get('/callback', (req, res) => {
     redirect_uri: 'http://localhost:8080/callback'
   }, (error, result) => {
     if (error) {
-      //console.error('Access Token Error', error.message);
       return res.json('Authentication failed');
     }
 
@@ -71,8 +70,8 @@ app.get('/callback', (req, res) => {
         console.log(err);
       }
       durations = res.body;
-      console.log(durations);
     });
+
 
     //TO-DO
     //how to create routing for authorized users in the front-end
@@ -82,8 +81,7 @@ app.get('/callback', (req, res) => {
     //set up cron job to send daily message through facebook
     //clean up code
     //figure out heroku hosting
-
-    return res.status(200).json(durations);
+       
   });
 });
 
