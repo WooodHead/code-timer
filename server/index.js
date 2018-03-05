@@ -17,8 +17,8 @@ var durations;
 
 const oauth2 = simpleOauthModule.create({
   client: {
-    id: passwords.WAKATIME_CLIENT_ID,
-    secret: passwords.WAKATIME_CLIENT_SECRET
+    id: process.env.WAKATIME_CLIENT_ID,
+    secret: process.env.WAKATIME_CLIENT_SECRET
   },
   auth: {
     tokenHost: 'https://wakatime.com/api/v1/',
@@ -81,7 +81,7 @@ app.get('/callback', (req, res) => {
     //set up cron job to send daily message through facebook
     //clean up code
     //figure out heroku hosting
-       
+
   });
 });
 
