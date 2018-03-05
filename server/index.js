@@ -3,7 +3,6 @@ const request = require('request');
 const bodyParser = require('body-parser');
 
 const simpleOauthModule = require('simple-oauth2');
-const passwords = require('../passwords.js');
 
 const app = express();
 const port = process.env.PORT || 8080;
