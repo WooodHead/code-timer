@@ -73,6 +73,8 @@ app.get('/callback', (req, res) => {
 
 
     //TO-DO
+    //change callback for testing purposes
+    //return something to the homapage
     //how to create routing for authorized users in the front-end
     //promisify/replace request with axios
     //add request to commits endpoint of wakatime
