@@ -28,7 +28,7 @@ const oauth2 = simpleOauthModule.create({
 
 // Authorization uri definition
 const authorizationUri = oauth2.authorizationCode.authorizeURL({
-  redirect_uri: 'http://localhost:8080/callback',
+  redirect_uri: 'https://codetimer.herokuapp.com/callback',
   response_type: 'code',
   scope: 'email,read_logged_time, read_stats'
 });
@@ -48,7 +48,7 @@ app.get('/callback', (req, res) => {
     headers: headers,
     code: code,
     grant_type: 'authorization_code',
-    redirect_uri: 'http://localhost:8080/callback'
+    redirect_uri: 'https://codetimer.herokuapp.com/callback'
   }, (error, result) => {
     if (error) {
       return res.json('Authentication failed');
