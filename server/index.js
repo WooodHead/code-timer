@@ -64,7 +64,7 @@ app.get('/callback', (req, res) => {
       method: "get",
       url: `https://wakatime.com/api/v1/users/current/durations?date=${rightDt}`,
       auth: {
-        'bearer': token.token.access_token
+        bearer: token.token.access_token
       }})
       .then((response) => durations = response.body)
       .catch((error) => console.error(error);)
