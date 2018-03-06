@@ -8,6 +8,8 @@ const simpleOauthModule = require('simple-oauth2');
 const app = express();
 const port = process.env.PORT || 8080;
 
+app.use(bodyParser.urlencoded({ extended: false }))
+
 app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/../client/dist'));
@@ -57,31 +59,21 @@ app.get('/callback', (req, res) => {
 
     //console.log('The resulting token: ', result);
     token = oauth2.accessToken.create(result);
+
     const dt = new Date();
     const rightDt = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate();
 
-    axios({
-      method: "get",
-      url: `https://wakatime.com/api/v1/users/current/durations?date=${rightDt}`,
-      auth: {
-        bearer: token.token.access_token
+    axios.get(`https://wakatime.com/api/v1/users/current/durations?date=${rightDt}`,
+      {
+        headers: {
+        "Authorization": `Bearer ${token.token.access_token}`
       }})
-      .then((response) => durations = response.body)
+      .then((response) => {
+        durations = response.data;
+        res.status(200).json(durations);
+      })
       .catch((error) => console.log(error))
-
-    res.status(200).json(durations);
-    //TO-DO
-    //change callback for testing purposes
-    //return something to the homapage
-    //how to create routing for authorized users in the front-end
-    //promisify/replace request with axios
-    //add request to commits endpoint of wakatime
-    //figure out facebook dot
-    //set up cron job to send daily message through facebook
-    //clean up code
-    //figure out heroku hosting
-
-  });
+    })
 });
 
 app.get('/success', (req, res) => {
@@ -95,3 +87,12 @@ app.get('/success', (req, res) => {
 app.listen(port, () => {
   console.log(`Express server started on port: ${port}`);
 });
+
+//TO-DO
+//change callback for testing purposes
+//return something to the homapage
+//add request to commits endpoint of wakatime
+//figure out facebook bot
+//set up cron job to send daily message through facebook
+//clean up code
+//figure out heroku hosting
