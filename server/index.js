@@ -67,7 +67,7 @@ app.get('/callback', (req, res) => {
         bearer: token.token.access_token
       }})
       .then((response) => durations = response.body)
-      .catch((error) => console.error(error);)
+      .catch((error) => console.log(error))
 
     res.send(durations);
     //TO-DO
