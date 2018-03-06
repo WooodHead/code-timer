@@ -71,7 +71,7 @@ app.get('/callback', (req, res) => {
       durations = res.body;
     });
 
-
+    res.send("Hello you are authorized");
     //TO-DO
     //change callback for testing purposes
     //return something to the homapage
