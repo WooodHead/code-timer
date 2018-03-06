@@ -1,6 +1,7 @@
 const express = require('express');
 const request = require('request');
 const bodyParser = require('body-parser');
+const axios = require('axios');
 
 const simpleOauthModule = require('simple-oauth2');
 
@@ -59,19 +60,16 @@ app.get('/callback', (req, res) => {
     const dt = new Date();
     const rightDt = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate();
 
-    request({
+    axios({
+      method: "get",
       url: `https://wakatime.com/api/v1/users/current/durations?date=${rightDt}`,
       auth: {
         'bearer': token.token.access_token
-      }
-    }, function(err, res) {
-      if(err){
-        console.log(err);
-      }
-      durations = res.body;
-    });
+      }})
+      .then((response) => durations = response.body)
+      .catch((error) => console.error(error);)
 
-    res.send("Hello you are authorized");
+    res.send(durations);
     //TO-DO
     //change callback for testing purposes
     //return something to the homapage
