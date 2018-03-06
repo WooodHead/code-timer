@@ -61,7 +61,7 @@ app.get('/callback', (req, res) => {
     token = oauth2.accessToken.create(result);
 
     const dt = new Date();
-    const rightDt = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate();
+    const rightDt = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + (dt.getDate() + 1);
 
     axios.get(`https://wakatime.com/api/v1/users/current/durations?date=${rightDt}`,
       {
