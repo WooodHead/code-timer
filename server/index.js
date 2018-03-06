@@ -69,7 +69,7 @@ app.get('/callback', (req, res) => {
       .then((response) => durations = response.body)
       .catch((error) => console.log(error))
 
-    res.send(durations);
+    res.status(200).json(durations);
     //TO-DO
     //change callback for testing purposes
     //return something to the homapage
